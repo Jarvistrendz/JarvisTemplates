@@ -24,11 +24,20 @@ spec:
           ports:
           - containerPort: 5000
             name: jarvistemplate
-      ports:
-        - port: 5000
-          targetPort: 5000
-      selector:
-            app: jarvistemplate
-            tier: jarvistemplate
-            type: LoadBalancer
 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jarvistemplate
+  labels:
+    app: jarvistemplate
+spec:
+  ports:
+    - port: 5000
+      targetPort: 5000
+  selector:
+    app: jarvistemplate
+    tier: jarvistemplate
+  type: LoadBalancer 
