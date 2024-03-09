@@ -1,34 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-todo-app
+  name: jarvistemplate
+  labels:
+    app: jarvistemplate
 spec:
-  replicas: 2
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
-      app: node-todo-app
+      app: jarvistemplate
+      
   template:
     metadata:
       labels:
-        app: node-todo-app
+        app: jarvistemplate
+        tier: jarvistemplate
     spec:
       containers:
-        - name: node-todo-app
-          image: jarvistrendz/node-todo-test:latest
+        - name: jarvistemplate
+          image: jarvistrendz/jarvistemplate:latest
+          imagePullPolicy: Always
           ports:
-            - containerPort: 8000
-          env:
-            - name: PORT
-              value: "8000"
+          - containerPort: 5000
+            name: jarvistemplate
+
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: node-todo-app
+  name: jarvistemplate
+  labels:
+    app: jarvistemplate
 spec:
-  type: LoadBalancer
   ports:
-    - port: 80
-      targetPort: 8000
+    - port: 5000
+      targetPort: 5000
   selector:
-    app: node-todo-app
+    app: jarvistemplate
+    tier: jarvistemplate
+  type: LoadBalancer 
